@@ -159,4 +159,65 @@ systemctl  hibernate
 systemctl  hybrid -sleep
 ~~~
 
-Siguen existiendo las instrucciones clásicas poweroff,shutdown, etc.dentro del paquete systemd-sysv pero realizan sus funciones através de systemd.
+#### timedatectl
+Instrucción utilizada para consultar y fijar la hora del sistema.
+~~~
+timedatectl
+Local  time: dom  2017 -12 -10  12:14:57  CET
+Universal  time: dom  2017 -12 -10  11:14:57  UTC
+RTC  time: dom  2017 -12 -10  11:14:57
+Time  zone: Europe/Madrid (CET , +0100)
+Network  time on: yes
+NTP  synchronized: yes
+RTC in  local  TZ: noIncluye ntp integrado a trav ́es desystemd-timesyncd.service
+~~~
+
+Incluye ntp integrado a través de systemd-timesynd.service.
+
+
+#### loginctl
+Puesto (seat): Hardware asociado a un puesto de trabajo.
+
+Sesión: Definida por el tiempo entre el ingreso y la salida del usuario.
+
+systemd-logind permite definir sistemas multisesión y/o multipuesto.
+
+loginctl es la instrucción para controlar las sesiones, puestos y demás aspectos relacionados:
+~~~
+loginctl  list -users
+loginctl  list -seats
+loginctl  list -sessions
+loginctl  user -status [USER]...
+~~~
+
+# Registros de log
+Entrada - stdin
+Salida - stdout u stderr. Y son salidas diferentes. En programación cuando se capturan errores o respuestas los mensajes hay que mandarlos a una salida u otra según el tratamiento que va a tener. 
+
+#### Formato del fichero /etc/syslog.conf
+Cada línea de este fichero tiene dos campos: selector y action.Escala de prioridad:
+- debug
+- info
+- notice
+- warning (warn)
+- error (err)
+- crit
+- alert
+- panic (emerg)
+
+El formato por defecto es syslog, pero hay aplicaciones que utilizan, por sus características, otros formatos. 
+
+#### Journalctl
+> Ejemplos
+Muestra los mensajes de prioridad error:
+~~~
+journalctl -p err
+~~~
+
+Muestra los mensajes de una unidad concreta:
+~~~
+journalctl -u ssh
+~~~
+
+
+## Practiquita: configurar la hora del sistema con systemctl
